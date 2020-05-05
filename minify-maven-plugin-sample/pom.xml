@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.programmingsharing</groupId>
+    <artifactId>minify-maven-plugin-sample</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <name>minify-maven-plugin-sample Maven Webapp</name>
+    <url>http://www.programmingsharing.com</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>minify-maven-plugin-sample</finalName>
+        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+            <plugins>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.2.2</version>
+                    <configuration>
+                        <warSourceExcludes>**/reset.css,**/fonts.css,**/base.css,**/toc.css,**/samaxesjs.core.js,**/samaxesjs.toc.js</warSourceExcludes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>com.samaxes.maven</groupId>
+                <artifactId>minify-maven-plugin</artifactId>
+                <version>1.7.4</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <id>default-minify</id>
+                        <configuration>
+                            <charset>UTF-8</charset>
+
+                            <!-- Stylesheet configuration -->
+                            <cssSourceDir>style</cssSourceDir>
+                            <cssSourceFiles>
+                                <cssSourceFile>base.css</cssSourceFile>
+                                <cssSourceFile>fonts.css</cssSourceFile>
+                                <cssSourceFile>reset.css</cssSourceFile>
+                                <cssSourceFile>toc.css</cssSourceFile>
+                            </cssSourceFiles>
+                            <cssFinalFile>combined-style.css</cssFinalFile>
+
+                            <!-- Javascript configuration -->
+                            <jsSourceDir>scripts</jsSourceDir>
+                            <jsSourceFiles>
+                                <jsSourceFile>script-1.js</jsSourceFile>
+                                <jsSourceFile>script-2.js</jsSourceFile>
+                                <jsSourceFile>script-3.js</jsSourceFile>
+                                <jsSourceFile>script-4.js</jsSourceFile>
+                                <!--  ... -->
+                                <jsSourceFile>script-n.js</jsSourceFile>
+                            </jsSourceFiles>
+                            <jsFinalFile>combined-script.js</jsFinalFile>
+                        </configuration>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
